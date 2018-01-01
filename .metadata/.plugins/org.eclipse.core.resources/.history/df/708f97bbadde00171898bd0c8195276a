@@ -1,0 +1,81 @@
+package com.example.controller;
+
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import javax.xml.ws.Response;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.CacheControl;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.model.Empl;
+import com.example.model.User;
+
+@RestController
+@RequestMapping(value = "/test")
+public class WelcomeController {
+	
+	 @Autowired
+	 private JdbcTemplate jdbcTemplate;
+	
+	 @RequestMapping(value = "/welcome", method = RequestMethod.GET)
+	 public String welcome() {
+		return "Welcome to Spring Boot";
+	}
+	 
+	@PostMapping(value = "/request",consumes = MediaType.APPLICATION_JSON_VALUE )
+	// @RequestMapping(value = "/request", method = RequestMethod.POST)
+	// ResponseBody is not required diff with controller
+	 public ResponseEntity<User> request( @RequestBody User user) {
+		System.out.println("Name is"+user.getUserName());
+		 return new ResponseEntity<User>(user, HttpStatus.OK);
+ 
+	}
+	
+	 
+		
+		
+		@RequestMapping(value = "/emp" ,method = RequestMethod.GET,
+	             produces = MediaType.APPLICATION_JSON_VALUE)
+		@ResponseStatus(HttpStatus.OK)
+		@ResponseBody
+		public List<Empl>  getAllUsers() {
+		Empl empl = getUser(1);
+			
+			 ResponseBuilder builder = Response.ok(empl);
+			    builder.cacheControl(CacheControl.maxAge(24, TimeUnit.HOURS)).cachePrivate());
+			    return builder.build();
+	         //Set max age to one day
+	        //Calculate the ETag on last modified date of user resource 
+	        EntityTag etag = new EntityTag(getUser.hashCode()+"");
+	        //Verify if it matched with etag available in http request
+	        rb = req.evaluatePreconditions(etag);
+	        
+	        return null;
+	         
+	}
+	 
+		public Empl  getUser(int empno) {
+			String sql="select * from empl where empno=:empno";
+			Empl employ = (Empl)jdbcTemplate.queryForObject(
+					sql, new Object[] { empno },
+					new BeanPropertyRowMapper(Empl.class));
+			
+			return employ;
+			
+		}
+	
+
+}

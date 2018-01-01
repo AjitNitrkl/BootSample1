@@ -1,0 +1,45 @@
+package com.example.demo;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+
+import com.example.controller.User;
+import com.example.controller.UserService;
+import com.example.controller.WelcomeController;
+
+@RunWith(SpringRunner.class)
+@SpringBootTest
+@WebMvcTest(WelcomeController.class)
+public class BootSampleEx11ApplicationTests {
+	
+
+    @Autowired
+    private MockMvc mockMvc;
+ 
+    @MockBean
+    private UserService service;
+    
+    User u = new User();
+    
+    
+    List<User> mockUser = new ArrayList<User>();
+    mockUser.
+   /* mockUser.add(new User(counter.incrementAndGet(),"Ajit",30, 70000));
+    mockUser.add(new User(counter.incrementAndGet(),"Sujit",40, 50000));*/
+  
+	@Test
+	public void testAllUSers() {
+
+		
+	}
+
+}

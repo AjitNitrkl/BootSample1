@@ -1,0 +1,48 @@
+package com.example.entity;
+
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
+public class Company {
+	
+	@Id @GeneratedValue
+	@Column(name = "id")
+	private int id;
+	@Column(name = "comp_name")
+	private String compName;
+	@Column(name = "head_count")
+	private String compHCount;
+	@Embedded
+	private Address compAddress;
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getCompName() {
+		return compName;
+	}
+	public void setCompName(String compName) {
+		this.compName = compName;
+	}
+	public String getCompHCount() {
+		return compHCount;
+	}
+	public void setCompHCount(String compHCount) {
+		this.compHCount = compHCount;
+	}
+	public Address getCompAddress() {
+		return compAddress;
+	}
+	public void setCompAddress(Address compAddress) {
+		this.compAddress = compAddress;
+	}
+	
+	
+
+}

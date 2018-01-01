@@ -1,0 +1,36 @@
+package com.example.hibernate;
+
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.transaction.Transactional;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+
+@Repository
+@Transactional
+public class GeneralDAO {
+    @Autowired
+    private SessionFactory sessionFactory;
+ 
+    private Session getSession() {
+        return sessionFactory.getCurrentSession();
+    }
+    
+    public void create() {
+    	Company company = new Company();
+    	Set<Empl> employeeList = new HashSet<Empl>();
+    	Empl emp1 = new Empl();
+    	emp1.setEmpId(1);
+    	emp1.setName("Ajit");
+    	emp1.setCity("Chicago");
+    	employeeList.add(emp1);
+		company.setEmployeeList(employeeList);
+    	getSession().save(company);
+    }
+
+}

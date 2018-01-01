@@ -1,0 +1,28 @@
+package com.example.hibernate;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class CricketerController {
+	
+	@Autowired
+	CricketerDAO cricketerDAO;
+	
+	@RequestMapping(value = "/allCricketers")
+    @ResponseBody
+    public List<Cricketer> getCricketer() {
+        try {
+            return cricketerDAO.getAllCricketers();
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+	
+	
+
+}

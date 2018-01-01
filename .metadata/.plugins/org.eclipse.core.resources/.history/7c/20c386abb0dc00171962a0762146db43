@@ -1,0 +1,26 @@
+package com.example.hibernate;
+
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+/*import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;*/
+
+@Entity
+@Table(name = "company")
+public class Company implements Serializable{
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "company")
+	Set<Emp> EmployeeList = new HashSet<Emp>();
+	
+	
+}

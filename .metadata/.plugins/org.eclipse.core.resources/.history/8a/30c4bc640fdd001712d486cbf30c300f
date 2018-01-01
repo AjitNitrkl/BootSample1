@@ -1,0 +1,82 @@
+package com.example.hibernate;
+
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import com.example.model.EmployeeId;
+
+@Entity
+@Table(name="Empl")
+public class Empl {
+	
+	@EmbeddedId
+	/*@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name="empid")*/
+	private EmployeeId empId;
+	
+	/*@Column(name="name")
+	private String name;*/
+	
+	@Embedded
+	private Address homeAddr;
+	
+	@Embedded
+	@AttributeOverrides({
+		@AttributeOverride(name = "street", column = @Column(name = "OFC_STREET")),
+		@AttributeOverride(name = "city", column = @Column(name = "OFC_CITY")),
+		@AttributeOverride(name = "zip", column = @Column(name = "OFC_ZIP")),
+		@AttributeOverride(name = "country", column = @Column(name = "OFC_COUNTRY"))
+		
+	})
+	private Address OffcAddr;
+	
+	
+	 @ManyToOne(fetch = FetchType.EAGER)
+	  @JoinColumn(name = "companyid")
+	  private Company company;
+	  
+	public Company getCompany() {
+		return company;
+	}
+	public void setCompany(Company company) {
+		this.company = company;
+	}
+	
+	
+	
+	public EmployeeId getEmpId() {
+		return empId;
+	}
+	public void setEmpId(EmployeeId empId) {
+		this.empId = empId;
+	}
+	/*public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}*/
+	public Address getHomeAddr() {
+		return homeAddr;
+	}
+	public void setHomeAddr(Address homeAddr) {
+		this.homeAddr = homeAddr;
+	}
+	public Address getOffcAddr() {
+		return OffcAddr;
+	}
+	public void setOffcAddr(Address offcAddr) {
+		OffcAddr = offcAddr;
+	}
+	
+	
+
+}

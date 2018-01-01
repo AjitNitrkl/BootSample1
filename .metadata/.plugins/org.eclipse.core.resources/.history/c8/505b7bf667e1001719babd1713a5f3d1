@@ -1,0 +1,22 @@
+package com.example.service;
+
+
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.stereotype.Service;
+import org.springframework.cache.annotation.Cacheable;
+
+@Service
+@CacheConfig(cacheNames = "instruments")
+public class MusicService {
+
+
+    @CacheEvict(allEntries = true)
+    public void clearCache(){}
+
+    @Cacheable(condition = "#instrument.equals('trombone')")
+    public String play(String instrument) {
+        return "paying " + instrument + "!";
+    }
+
+}

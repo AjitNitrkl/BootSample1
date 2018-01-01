@@ -1,0 +1,10 @@
+package com.example.jersey;
+
+import javax.ws.rs.container.ContainerRequestFilter;
+import javax.ws.rs.container.ContainerResponseFilter;
+import javax.ws.rs.ext.Provider;
+
+@Provider
+public class LoggingFilter implements ContainerRequestFilter, ContainerResponseFilter{
+
+}

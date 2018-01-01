@@ -1,0 +1,95 @@
+package com.example.jersey;
+
+import java.io.IOException;
+import java.lang.reflect.Method;
+import java.security.Key;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.annotation.Priority;
+import javax.annotation.security.RolesAllowed;
+import javax.inject.Inject;
+import javax.ws.rs.Priorities;
+import javax.ws.rs.container.ContainerRequestContext;
+import javax.ws.rs.container.ContainerRequestFilter;
+import javax.ws.rs.container.ResourceInfo;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.ext.Provider;
+
+import com.example.util.KeyGenerator;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+@Provider
+@JWTTokenNeeded
+@Priority(Priorities.AUTHENTICATION)
+public class JWTTokenNeededFilter implements ContainerRequestFilter {
+ 
+    @Inject
+    private KeyGenerator keyGenerator;
+    
+    @Context
+    private ResourceInfo resourceInfo;
+ 
+    @Override
+    public void filter(ContainerRequestContext requestContext) throws IOException {
+ 
+        // Get the HTTP Authorization header from the request
+        String authorizationHeader = requestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
+ 
+        // Extract the token from the HTTP Authorization header
+         String token = authorizationHeader.substring("Bearer".length()).trim();
+ 
+        try {
+ 
+            // Validate the token
+            Key key = keyGenerator.generateKey();
+            Jwts.parser().setSigningKey(key).parseClaimsJws(token);
+            Claims body = Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody();
+            System.out.println(body.getSubject());
+            System.out.println(body.get("userId"));
+            System.out.println(body.get("role"));
+            Method method = resourceInfo.getResourceMethod();
+            System.out.println(method);
+            
+            if(method.isAnnotationPresent(RolesAllowed.class))
+            {
+                RolesAllowed rolesAnnotation = method.getAnnotation(RolesAllowed.class);
+                Set<String> rolesSet = new HashSet<String>(Arrays.asList(rolesAnnotation.value()));
+                  
+                //Is user valid?
+                if( ! isUserAllowed( rolesSet))
+                {
+                    requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).build());
+                    return;
+                }
+            }
+            
+ 
+        } catch (Exception e) {
+            requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).build());
+        }
+    }
+    
+    
+    private boolean isUserAllowed( final Set<String> rolesSet)
+    {
+        boolean isAllowed = false;
+          
+        //Step 1. Fetch password from database and match with password in argument
+        //If both match then get the defined role for user from database and continue; else return isAllowed [false]
+        //Access the database and do this part yourself
+        //String userRole = userMgr.getUserRole(username);
+        String userRole = "ADMIN";
+          
+        //Step 2. Verify user role
+        if(rolesSet.contains(userRole))
+        {
+            isAllowed = true;
+        }
+        return isAllowed;
+    }
+}

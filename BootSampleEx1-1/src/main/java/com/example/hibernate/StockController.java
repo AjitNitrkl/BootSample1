@@ -1,0 +1,38 @@
+package com.example.hibernate;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.controller.UserService;
+
+@RestController
+public class StockController {
+
+		@Autowired
+		GeneralDAO generalDAO;
+		
+		@Autowired
+		UserService userService;
+		
+		@RequestMapping(value = "/saveStock", method = RequestMethod.GET)
+		@Transactional(propagation = Propagation.REQUIRED)
+	    public String saveStock() {
+	             try {
+	            	 
+	            	 userService.insertStock();
+					
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	            // generalDAO.create();
+	             return "success";
+		}
+		
+		
+		
+}

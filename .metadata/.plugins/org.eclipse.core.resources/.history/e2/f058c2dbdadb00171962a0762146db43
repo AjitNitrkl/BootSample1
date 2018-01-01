@@ -1,0 +1,18 @@
+server.port=8085
+spring.datasource.url=jdbc:oracle:thin:@CTSTX34527.cts.com:1521:xe
+spring.datasource.username=testnew
+spring.datasource.password=test
+spring.datasource.driver-class-name=oracle.jdbc.driver.OracleDriver
+
+user.email=ajit.nitrkl@gmail.com
+user.name=Ajit Behera
+user.address=1651 EASTON CT
+user.city=WHEELING
+user.country=India
+
+# Hibernate
+hibernate.dialect: org.hibernate.dialect.Oracle10gDialect
+hibernate.connection.driver_class=oracle.jdbc.driver.OracleDriver
+hibernate.show_sql: true
+hibernate.hbm2ddl.auto: create
+entitymanager.packagesToScan: com

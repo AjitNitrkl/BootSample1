@@ -1,0 +1,13 @@
+package com.example.entity;
+
+import javax.persistence.Entity;
+
+@Entity
+public class Company {
+	
+	private int id;
+	private String compName;
+	private String compHCount;
+	private Address compAddress;
+
+}

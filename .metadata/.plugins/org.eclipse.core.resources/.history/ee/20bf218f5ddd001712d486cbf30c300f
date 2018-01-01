@@ -1,0 +1,9 @@
+package com.example.hibernate;
+
+public class Util {
+	
+	public void getDetails() throws ArithmeticException {
+		int i=1/0;
+	}
+
+}

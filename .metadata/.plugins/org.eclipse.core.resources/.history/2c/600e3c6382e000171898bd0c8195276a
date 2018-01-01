@@ -1,0 +1,44 @@
+package com.example.demo;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import com.example.controller.UserService;
+import com.example.controller.WelcomeController;
+
+@RunWith(SpringRunner.class)
+@SpringBootTest
+@WebMvcTest(WelcomeController.class)
+public class BootSampleEx11ApplicationTests {
+	
+
+    @Autowired
+    private MockMvc mockMvc;
+ 
+    @MockBean
+    private UserService service;
+
+	@Test
+	public void testAllUSers() {
+		mockMvc.perform(get("/users").)
+				 
+				/* get("/users")
+		                 .contentType(MediaType.APPLICATION_JSON)
+		                    .content(asJsonString(user)))
+		            .andExpect(status().isConflict());
+		    verify(userService, times(1)).exists(user);
+		    verifyNoMoreInteractions(userService);*/
+
+		
+	}
+
+}

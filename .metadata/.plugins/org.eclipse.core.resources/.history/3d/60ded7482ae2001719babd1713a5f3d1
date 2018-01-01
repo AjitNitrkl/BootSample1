@@ -1,0 +1,17 @@
+class Person {
+	private static String name;
+	public  static void setName(String firstName, String lastName) {
+		 name = firstName + " " + lastName;
+		 System.out.println(name);
+	}
+	
+	public   void setName1(String firstName, String lastName) {
+		 name = firstName + " " + lastName;
+		 System.out.println(name);
+	}
+	
+	
+	Person(){
+		Person p = new Person();
+	}
+}

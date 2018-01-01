@@ -1,0 +1,22 @@
+package com.example.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.example.dao.UserCompanyRepository;
+import com.example.dao.UserRepository;
+import com.example.entity.Users;
+
+@Service("userService")
+public class UserService {
+	
+	@Autowired
+	UserRepository userDao;
+	
+	@Autowired
+	UserCompanyRepository compDao;
+	
+	public void createUser(Users user) {
+		userDao.save(user);
+	}
+}

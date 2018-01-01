@@ -1,0 +1,55 @@
+package com.example.model;
+
+import java.io.Serializable;
+import java.util.Objects;
+
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+
+@Embeddable
+public class CompanyKey implements Serializable {
+ 
+    @Column(name = "companyid")
+    private int companyId;
+ 
+    @Column(name = "empId")
+    private int empId;
+ 
+    public CompanyKey() {
+    }
+ 
+ 
+    public int getCompanyId() {
+		return companyId;
+	}
+
+	public void setCompanyId(int companyId) {
+		this.companyId = companyId;
+	}
+
+	public int getEmpId() {
+		return empId;
+	}
+
+	public void setEmpId(int empId) {
+		this.empId = empId;
+	}
+
+
+
+
+
+	@Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof CompanyKey)) return false;
+        CompanyKey that = (CompanyKey) o;
+        return Objects.equals(getCompanyId(), that.getCompanyId()) &&
+                Objects.equals(getEmpId(), that.getEmpId());
+    }
+ 
+    @Override
+    public int hashCode() {
+        return Objects.hash(getCompanyId(), getEmpId());
+    }
+}

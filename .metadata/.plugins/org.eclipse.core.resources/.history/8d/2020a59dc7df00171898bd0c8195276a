@@ -1,0 +1,17 @@
+package com.example.demo;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+public class Test {
+
+	public static void main(String[] args) {
+		ExecutorService e = Executors.newFixedThreadPool(3);
+        Runnable r=()->System.out.println("test");
+        		
+        		//System.out::println;
+		e.execute(r);
+
+	}
+
+}

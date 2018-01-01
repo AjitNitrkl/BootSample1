@@ -1,0 +1,11 @@
+package com.test.dao;
+
+import java.io.Serializable;
+
+import org.springframework.data.repository.CrudRepository;
+
+import com.test.entity.User;
+
+public interface UserDAO extends CrudRepository<User, Serializable> {
+
+}

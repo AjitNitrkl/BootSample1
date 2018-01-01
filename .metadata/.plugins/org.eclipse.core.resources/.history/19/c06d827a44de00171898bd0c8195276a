@@ -1,0 +1,13 @@
+
+public class Test {
+	
+	public static void main(String a[]) {
+		
+		Person<Person, String, String> setNameOnPersonL = 
+			(person, first, last) -> person.setName(first, last);
+
+		Person<String, String, String> setNameOnPersonMR =
+			Person::setName;
+	}
+
+}

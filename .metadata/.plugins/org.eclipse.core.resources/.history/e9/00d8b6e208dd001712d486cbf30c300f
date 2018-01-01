@@ -1,0 +1,64 @@
+package com.example.hibernate;
+
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="Empl")
+public class Empl {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name="empid")
+	private int empId;
+	
+	@Column(name="name")
+	private String name;
+	
+	@Embedded
+	private Address addr;
+	
+	
+	 @ManyToOne(fetch = FetchType.EAGER)
+	  @JoinColumn(name = "companyid")
+	  private Company company;
+	  
+	  
+	
+	
+	public Company getCompany() {
+		return company;
+	}
+	public void setCompany(Company company) {
+		this.company = company;
+	}
+	public int getEmpId() {
+		return empId;
+	}
+	public void setEmpId(int empId) {
+		this.empId = empId;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public Address getAddr() {
+		return addr;
+	}
+	public void setAddr(Address addr) {
+		this.addr = addr;
+	}
+	
+	
+
+}

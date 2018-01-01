@@ -1,0 +1,81 @@
+package com.example.hibernate;
+
+import java.io.Serializable;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import com.example.model.CompanyKey;
+
+/*import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;*/
+
+@Entity
+@Table(name = "COMPANY")
+public class Company implements Serializable{
+	
+	
+	//@GeneratedValue(strategy=GenerationType.AUTO)
+	//@Column(name="companyid")
+	@EmbeddedId
+	private CompanyKey companyKey;
+	
+	/*@ElementCollection
+	private Set<CompanyBranch> branches = new HashSet<CompanyBranch>();*/
+	
+	
+	
+	@OneToMany(mappedBy = "company", cascade = CascadeType.ALL, 
+			fetch = FetchType.EAGER)
+	/*@JoinTable(name="Company_Emp", 
+    joinColumns=@JoinColumn(name="companyid"),
+    inverseJoinColumns=@JoinColumn(name="DEPT_ID"))*/
+	Set<Empl> EmployeeList;
+
+	
+	
+
+	
+
+	public Set<Empl> getEmployeeList() {
+		return EmployeeList;
+	}
+
+	public void setEmployeeList(Set<Empl> employeeList) {
+		EmployeeList = employeeList;
+	}
+
+	public CompanyKey getCompanyKey() {
+		return companyKey;
+	}
+
+	public void setCompanyKey(CompanyKey companyKey) {
+		this.companyKey = companyKey;
+	}
+
+	/*public Set<CompanyBranch> getBranches() {
+		return branches;
+	}
+
+	public void setBranches(Set<CompanyBranch> branches) {
+		this.branches = branches;
+	}
+
+
+	
+	*/
+	
+	
+}

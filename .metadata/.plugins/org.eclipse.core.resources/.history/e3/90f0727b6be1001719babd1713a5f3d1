@@ -1,0 +1,30 @@
+package com.example.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Component;
+
+import com.example.dao.UserRepository;
+import com.example.entity.Users;
+
+@Component
+public class UsersCache {
+
+	@Autowired
+	UserRepository userDao;
+   
+   /* @Cacheable(value = "usersCache", key = "#name")
+    public Users getUser(String name) {
+        System.out.println("Retrieving from Database for name: " + name);
+        return usersRepository.findByName(name);
+    }*/
+    
+    @CachePut(value="userCache",key="#userCacheId")
+	public List<Users> updateUserCache(Integer userId, Users user) {
+    	List<Users> userData = (List<Users>) userDao.findAll();
+		return userData;
+	}
+}

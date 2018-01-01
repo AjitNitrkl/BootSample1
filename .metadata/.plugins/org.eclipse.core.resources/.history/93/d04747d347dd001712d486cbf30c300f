@@ -1,0 +1,29 @@
+package com.example.hibernate;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class StockController {
+
+		@Autowired
+		GeneralDAO generalDAO;
+		
+		@RequestMapping(value = "/saveStock")
+		@Transactional
+	    public String saveStock() {
+	             try {
+					generalDAO.saveStock();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	            // generalDAO.create();
+	             return "success";
+		}
+		
+		
+		
+}

@@ -1,0 +1,14 @@
+import java.util.function.BiConsumer;
+
+public class Test {
+	
+	public static void main(String a[]) {
+		
+		BiConsumer< String, String> setNameOnPersonL = 
+			(person, first, last) -> person.setName(first, last);
+
+			BiConsumer< String, String> setNameOnPersonMR =
+			Person::setName;
+	}
+
+}

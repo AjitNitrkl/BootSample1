@@ -1,0 +1,12 @@
+package com.example.hibernate;
+
+import org.springframework.stereotype.Component;
+
+@Component
+public class HibUtil {
+	
+	public void getDetails() throws ArithmeticException {
+		int i=1/0;
+	}
+
+}

@@ -1,0 +1,43 @@
+package com.example.hibernate;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.controller.UserService;
+
+@RestController
+public class CricketerController {
+	
+	@Autowired
+	CricketerDAO cricketerDAO;
+	
+	@Autowired
+	UserService userService;
+	
+	@RequestMapping(value = "/allCricketers")
+    public List<Cricketer> getCricketer() {
+        try {
+            return cricketerDAO.getAllCricketers();
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+	
+	@RequestMapping(value = "/cricketer/{id}", method = RequestMethod.GET)
+    public Cricketer cricketer(@PathVariable int id) {
+        try {
+        	System.out.println(id);
+            return cricketerDAO.getCricketerById(id);
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+	
+	
+
+}

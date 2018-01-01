@@ -1,0 +1,159 @@
+package com.example.jersey;
+
+import static javax.ws.rs.core.HttpHeaders.AUTHORIZATION;
+import static javax.ws.rs.core.Response.Status.UNAUTHORIZED;
+
+import java.security.Key;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
+import java.util.List;
+
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
+import com.example.controller.User;
+import com.example.controller.UserService;
+import com.example.hibernate.Cricketer;
+import com.example.hibernate.CricketerDAO;
+import com.example.hibernate.GeneralDAO;
+import com.example.util.KeyGenerator;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+
+/**
+ * @author Antonio Goncalves
+ *         http://www.antoniogoncalves.org
+ *         --
+ */
+
+/*@Produces(APPLICATION_JSON)
+@Consumes(APPLICATION_JSON)
+@Transactional*/
+@Path("/usr")
+public class UserEndpoint {
+
+    // ======================================
+    // =          Injection Points          =
+    // ======================================
+
+    @Context
+    private UriInfo uriInfo;
+
+   
+    @Autowired
+	UserService userService;
+
+    @Autowired(required = true)
+	@Qualifier("keyGenerator")
+     KeyGenerator keyGenerator;
+    
+    @Autowired
+	GeneralDAO generalDAO;
+    
+    @Autowired
+	CricketerDAO cricketerDAO;
+	
+
+
+    @POST
+    @Path("/login")
+    public Response authenticateUser(@QueryParam("username") String login,
+                                     @QueryParam("password") String password) {
+
+        try {
+
+           // logger.info("#### login/password : " + login + "/" + password);
+
+            // Authenticate the user using the credentials provided
+            authenticate(login, password);
+
+            // Issue a token for the user
+            String token = issueToken(login);
+
+            // Return the token on the response
+            return Response.ok().header(AUTHORIZATION, "Bearer " + token).build();
+
+        } catch (Exception e) {
+            return Response.status(UNAUTHORIZED).build();
+        }
+    }
+
+    private void authenticate(String login, String password) throws Exception {
+    	int count = generalDAO.getUser(login, password);
+
+        if (count == 0)
+            throw new SecurityException("Invalid user/password");
+    }
+
+    private String issueToken(String login) {
+        Key key = keyGenerator.generateKey();
+        Claims claims = Jwts.claims().setSubject(login);
+        claims.put("userId","1");
+        claims.put("role", "ADMIN");//need to get from DB
+
+        String jwtToken = Jwts.builder()
+                //.setSubject(login)
+        		.setClaims(claims)
+                .setIssuer(uriInfo.getAbsolutePath().toString())
+                .setIssuedAt(new Date())
+                .setExpiration(toDate(LocalDateTime.now().plusMinutes(15L)))
+                .signWith(SignatureAlgorithm.HS512, key)
+                .compact();
+       // logger.info("#### generating token for a key : " + jwtToken + " - " + key);
+        return jwtToken;
+
+    }
+
+ 
+    @RequestMapping(value = "/cricketer/{id}", method = RequestMethod.GET)
+    public Cricketer cricketer(@PathVariable int id) {
+        try {
+        	System.out.println(id);
+            return cricketerDAO.getCricketerById(id);
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
+    @RequestMapping(value = "/users" ,method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseStatus(HttpStatus.OK)
+	@ResponseBody
+	public List<User>  getAllUsers() {
+		List<User> users =  userService.getUsers();
+		return users;
+}
+    
+    @POST
+   	@Path("/create")
+       @Produces("application/json")
+	public String  create(@Context UriInfo info ) {
+    		String userName = info.getQueryParameters().getFirst("username");
+    		String password = info.getQueryParameters().getFirst("password");
+    	
+		generalDAO.createLoginUser(userName, password);
+		return "success";
+}
+   
+    private Date toDate(LocalDateTime localDateTime) {
+        return Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
+    }
+}

@@ -1,0 +1,30 @@
+package com.example.controller;
+
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping(value = "/test")
+public class WelcomeController {
+	
+	
+	
+	 @RequestMapping(value = "/welcome", method = RequestMethod.GET)
+	 public String welcome() {
+		return "Welcome to Spring Boot";
+	}
+	 
+	/*//@PostMapping(value = "/request")
+	 @RequestMapping(value = "/request", method = RequestMethod.POST)
+	@Consumes("application/xml")
+	 public String request(@RequestBody User user) {
+		System.out.println("Name is"+user.getUserName());
+		return "Welcome to Spring Boot";
+	}*/
+	 
+	
+	
+	
+
+}

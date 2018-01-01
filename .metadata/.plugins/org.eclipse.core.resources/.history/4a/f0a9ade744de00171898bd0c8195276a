@@ -1,0 +1,6 @@
+class Person {
+	private static String name;
+	public  static void setName(String firstName, String lastName) {
+		 name = firstName + " " + lastName;
+	}
+}

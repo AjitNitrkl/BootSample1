@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aop-reference-model>
+<aop-project name="BootJPAEx"/>
+<aop-project name="BootSampleEx2"/>
+<aop-project name="BootSampleEx1-1"/>
+<aop-project name="BootSampleEx3-1"/>
+</aop-reference-model>

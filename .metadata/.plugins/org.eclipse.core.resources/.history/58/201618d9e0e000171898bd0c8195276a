@@ -1,0 +1,14 @@
+server.port=8085
+spring.datasource.url=1jdbc:oracle:thin:@CTSTX34527.cts.com:1521:xe
+spring.datasource.username=testnew
+spring.datasource.password=test
+spring.datasource.driver-class-name=oracle.jdbc.driver.OracleDriver
+
+user.email=ajit.nitrkl@gmail.com
+user.name=Ajit Behera
+user.address=1651 EASTON CT
+user.city=WHEELING
+user.country=India
+
+#for actuator dif end point
+management.port=9085 
